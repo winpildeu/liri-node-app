@@ -69,6 +69,22 @@ function spotifySearch(song) {
             console.log(err);
         });
 }
+
+function omdb(movie) {
+    let url = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=7348df91";
+
+    axios.get(url)
+        .then(resp => {
+            // confirm the data was received
+            console.log(resp);
+            
+            // save the useful data
+            let data = resp.data;
+
+            
+        })
+        .catch(err => console.log(err));
+}
 // main code ==========================================
 
 // catch the input and put them into a variables
@@ -91,8 +107,11 @@ switch (input) {
         spotifySearch(query);
         break;
     case "movie-this":
+        if (query == "") {
+            query = "Mr. Nobody";
+        }
         console.log(`Query: ${query}`);
-        omdb();
+        omdb(query);
         break;
     case "do-what-it-says":
         readFile();
