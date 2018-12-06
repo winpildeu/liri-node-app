@@ -51,15 +51,19 @@ function spotifySearch(song) {
             // save the useful data
             let data = response.tracks.items;
 
-            // album name
-            // console.log(data[0].album.name);
-            // artist name
-            // console.log(data[0].artists[0].name);
-            // preview URL
-            // console.log(data[0].preview_url);
-            // song name
-            // console.log(data[0].name);
-            
+            // loop thru and display the song info for each result
+            for (let i = 0; i < data.length; i++) {
+                // entry number
+                console.log("\nEntry no: " + (i + 1));
+                // artist name
+                console.log("Artist: " + data[i].artists[0].name);
+                // song name
+                console.log("Song name: " + data[i].name);
+                // preview URL
+                console.log("Preview URL: " + data[i].preview_url);
+                // album name
+                console.log("Album name: " + data[i].album.name + "\n");
+            }
         })
         .catch(function (err) {
             console.log(err);
