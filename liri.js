@@ -18,7 +18,7 @@ function bandsInTown(artist) {
     let url = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
     console.log(`Searching for ${artist} concerts...\nURL: ${url}\n`);
-    
+
     // perform a get request with the URL and artist info
     axios.get(url)
         .then(function (response) {
@@ -38,23 +38,56 @@ function bandsInTown(artist) {
         });
 }
 
+function spotifySearch(song) {
+    spotify
+        .search({
+            type: 'track',
+            query: song
+        })
+        .then(function (response) {
+            // confirm data was received
+            // console.table(response.tracks.items, ["artists", "name", "preview_url", "album"]);
+
+            // save the useful data
+            let data = response.tracks.items;
+
+            // album name
+            // console.log(data[0].album.name);
+            // artist name
+            // console.log(data[0].artists[0].name);
+            // preview URL
+            // console.log(data[0].preview_url);
+            // song name
+            // console.log(data[0].name);
+            
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+}
 // main code ==========================================
 
 // catch the input and put them into a variables
 let input = process.argv[2];
 let query = process.argv.slice(3).join(" ");
-console.log(`LIRI input: ${input} \nQuery: ${query}`);
+console.log(`LIRI input: ${input}`);
 
 
 // depending on the input, run the command
 switch (input) {
     case "concert-this":
+        console.log(`Query: ${query}`);
         bandsInTown(query);
         break;
     case "spotify-this-song":
-        spotify();
+        if (query == "") {
+            query = "The Sign Ace of Base";
+        }
+        console.log(`Query: ${query}\n`);
+        spotifySearch(query);
         break;
     case "movie-this":
+        console.log(`Query: ${query}`);
         omdb();
         break;
     case "do-what-it-says":
