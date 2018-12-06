@@ -76,15 +76,69 @@ function omdb(movie) {
     axios.get(url)
         .then(resp => {
             // confirm the data was received
-            console.log(resp);
-            
+            // console.log(resp);
+            // console.log(url);
+
+
             // save the useful data
             let data = resp.data;
 
-            
+            // display the data
+            console.log(`\nTitle: ${data.Title}`);
+            console.log(`Year: ${data.Year}`);
+            console.log(`IMDB rating: ${data.imdbRating}`);
+            console.log(`Rotten Tomatoes rating: ${data.Ratings[1].Value}`);
+            console.log(`Country: ${data.Country}`);
+            console.log(`Language: ${data.Language}`);
+            console.log(`Plot: ${data.Plot}`);
+            console.log(`Actors: ${data.Actors}`);
         })
         .catch(err => console.log(err));
 }
+
+function readFile() {
+    fs.readFile("random.txt", "utf8", (error, data) => {
+        // catches and displays errors
+        (error) ? console.log(error): console.log(`File: ${data}`);
+
+        // split the string into an array of entries
+        dataArr = data.split(',');
+        
+        // send the data to commands
+        commands(dataArr[0], dataArr[1]);
+    });
+}
+
+function commands(input, query) {
+    // depending on the input, run the command
+    switch (input) {
+        case "concert-this":
+            console.log(`Query: ${query}`);
+            bandsInTown(query);
+            break;
+        case "spotify-this-song":
+            if (query == "") {
+                query = "The Sign Ace of Base";
+            }
+            console.log(`Query: ${query}\n`);
+            spotifySearch(query);
+            break;
+        case "movie-this":
+            if (query == "") {
+                query = "Mr. Nobody";
+            }
+            console.log(`Query: ${query}`);
+            omdb(query);
+            break;
+        case "do-what-it-says":
+            readFile();
+            break;
+        default:
+            console.log(`Not a valid input.`);
+            break;
+    }
+}
+
 // main code ==========================================
 
 // catch the input and put them into a variables
@@ -92,31 +146,4 @@ let input = process.argv[2];
 let query = process.argv.slice(3).join(" ");
 console.log(`LIRI input: ${input}`);
 
-
-// depending on the input, run the command
-switch (input) {
-    case "concert-this":
-        console.log(`Query: ${query}`);
-        bandsInTown(query);
-        break;
-    case "spotify-this-song":
-        if (query == "") {
-            query = "The Sign Ace of Base";
-        }
-        console.log(`Query: ${query}\n`);
-        spotifySearch(query);
-        break;
-    case "movie-this":
-        if (query == "") {
-            query = "Mr. Nobody";
-        }
-        console.log(`Query: ${query}`);
-        omdb(query);
-        break;
-    case "do-what-it-says":
-        readFile();
-        break;
-    default:
-        console.log(`Not a valid input.`);
-        break;
-}
+commands(input, query);
