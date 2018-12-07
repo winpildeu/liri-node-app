@@ -14,6 +14,7 @@ const axios = require('axios');
 
 // functions ==========================================
 
+// searches the API for concert info and returns the results
 function bandsInTown(artist) {
     let url = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
@@ -38,6 +39,7 @@ function bandsInTown(artist) {
         });
 }
 
+// searches the Spotify API and shows the song search results
 function spotifySearch(song) {
     spotify
         .search({
@@ -70,6 +72,7 @@ function spotifySearch(song) {
         });
 }
 
+// searches the OMDB database for the inputted movie and shows the results
 function omdb(movie) {
     let url = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=7348df91";
 
@@ -96,6 +99,7 @@ function omdb(movie) {
         .catch(err => console.log(err));
 }
 
+// imports a file that has a command/ input and then does stuff based on the command/input from the file
 function readFile() {
     fs.readFile("random.txt", "utf8", (error, data) => {
         // catches and displays errors
@@ -109,6 +113,7 @@ function readFile() {
     });
 }
 
+// logic for what to do with the input and query
 function commands(input, query) {
     // depending on the input, run the command
     switch (input) {
